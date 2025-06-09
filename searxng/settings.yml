@@ -10,10 +10,10 @@ search:
 server:
   # base_url is defined in the SEARXNG_BASE_URL environment variable
   secret_key: "my-custom-secret-key-from-env"
-  limiter: false
+  limiter: false 
   image_proxy: true
 ui:
   static_use_hash: true
-# Redis configuration - can be enabled if Railway Redis addon is used
+# Redis configuration
 # redis:
 #   url: ${REDIS_URL}

@@ -73,6 +73,20 @@ docker-compose up -d
 # Access at http://localhost:8080
 ```
 
+## Example Screenshots
+
+**SearXNG homepage**
+![SearXNG homepage!](https://zyugzloemocjcxmspsso.supabase.co/storage/v1/object/public/static-assets//searxng-3.png "SearXNG homepage")
+
+**SearXNG search**
+![SearXNG search!](https://zyugzloemocjcxmspsso.supabase.co/storage/v1/object/public/static-assets//searxng-1.png "SearXNG search")
+
+**SearXNG image search**
+![SearXNG image search!](https://zyugzloemocjcxmspsso.supabase.co/storage/v1/object/public/static-assets//searxng-2.png "SearXNG image search")
+
+**Hook up SearXNG to n8n and start automating your searches**
+![SearXNG image search!](https://zyugzloemocjcxmspsso.supabase.co/storage/v1/object/public/static-assets//searxng-4.png "Hook up SearXNG to n8n and start automating your searches")
+
 ## ⚙️ Configuration
 
 ### Environment Variables
