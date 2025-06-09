@@ -29,6 +29,7 @@ SearXNG is a free internet metasearch engine that aggregates results from more t
 ### 🔧 Optimized for Railway
 - **Railway Integration**: Automatically detects Railway's `PORT` environment variable
 - **Dynamic Base URL**: Configures itself based on Railway's provided domain
+- **Volume Mount Compatible**: Works seamlessly with Railway's volume mounts
 - **Persistent Configuration**: Custom settings persist across deployments
 
 ### 🛡️ Security & Privacy

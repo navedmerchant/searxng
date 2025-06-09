@@ -12,8 +12,9 @@ ENV PORT=${PORT:-8080}
 ENV UWSGI_WORKERS=${SEARXNG_UWSGI_WORKERS:-4}
 ENV UWSGI_THREADS=${SEARXNG_UWSGI_THREADS:-4}
 
-# Copy custom configuration
+# Copy custom configuration to both locations (for volume mount scenarios)
 COPY ./searxng /etc/searxng
+COPY ./searxng /etc/searxng-backup
 
 # Copy the entrypoint script
 COPY entrypoint.sh /entrypoint.sh
