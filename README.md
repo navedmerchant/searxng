@@ -1,116 +1,158 @@
-# searxng-docker
+# SearXNG Docker Template for Railway
 
-Create a new SearXNG instance in five minutes using Docker
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/MieO4T?referralCode=KKAfTD)
 
-## What is included?
+A ready-to-deploy [SearXNG](https://github.com/searxng/searxng) metasearch engine template for [Railway](https://railway.app). Get your own privacy-focused search engine running in minutes!
 
-| Name | Description | Docker image | Dockerfile |
-| -- | -- | -- | -- |
-| [Caddy](https://github.com/caddyserver/caddy) | Reverse proxy (create a LetsEncrypt certificate automatically) | [docker.io/library/caddy:2-alpine](https://hub.docker.com/_/caddy)           | [Dockerfile](https://github.com/caddyserver/caddy-docker/blob/master/Dockerfile.tmpl) |
-| [SearXNG](https://github.com/searxng/searxng) | SearXNG by itself                                              | [docker.io/searxng/searxng:latest](https://hub.docker.com/r/searxng/searxng) | [Dockerfile](https://github.com/searxng/searxng/blob/master/Dockerfile)               |
-| [Valkey](https://github.com/valkey-io/valkey) | In-memory database                                             | [docker.io/valkey/valkey:8-alpine](https://hub.docker.com/r/valkey/valkey)        | [Dockerfile](https://github.com/valkey-io/valkey-container/blob/mainline/Dockerfile.template)             |
+## 🔍 About SearXNG
 
-## How to use it
-There are two ways to host SearXNG. The first one doesn't require any prior knowledge about self-hosting and thus is recommended for beginners. It includes caddy as a reverse proxy and automatically deals with the TLS certificates for you. The second one is recommended for more advanced users that already have their own reverse proxy (e.g. Nginx, HAProxy, ...) and probably some other services running on their machine. The first few steps are the same for both installation methods however.
+SearXNG is a free internet metasearch engine that aggregates results from more than 70 search services. It's designed to provide:
 
-1. [Install docker](https://docs.docker.com/install/)
-2. Get searxng-docker
-  ```sh
-  cd /usr/local
-  git clone https://github.com/searxng/searxng-docker.git
-  cd searxng-docker
-  ```
-3. Edit the [.env](https://github.com/searxng/searxng-docker/blob/master/.env) file to set the hostname and an email
-4. Generate the secret key `sed -i "s|ultrasecretkey|$(openssl rand -hex 32)|g" searxng/settings.yml`  
-   On a Mac: `sed -i '' "s|ultrasecretkey|$(openssl rand -hex 32)|g" searxng/settings.yml`
-5. Edit [searxng/settings.yml](https://github.com/searxng/searxng-docker/blob/master/searxng/settings.yml) according to your needs
+- **Privacy Protection**: No tracking, no data collection, no user profiling
+- **Ad-Free Experience**: Clean search results without advertisements
+- **Multiple Sources**: Combines results from Google, Bing, DuckDuckGo, and many more
+- **Open Source**: Fully transparent and community-driven
+- **Customizable**: Configure which search engines to use and how results are displayed
 
-> [!NOTE]
-> On the first run, you must remove `cap_drop: - ALL` from the `docker-compose.yaml` file for the `searxng` service to successfully create `/etc/searxng/uwsgi.ini`. This is necessary because the `cap_drop: - ALL` directive removes all capabilities, including those required for the creation of the `uwsgi.ini` file. After the first run, you should re-add `cap_drop: - ALL` to the `docker-compose.yaml` file for security reasons.
+## ✨ Features & Benefits of This Railway Template
 
-> [!NOTE]
-> Windows users can use the following powershell script to generate the secret key:
-> ```powershell
-> $randomBytes = New-Object byte[] 32
-> (New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes($randomBytes)
-> $secretKey = -join ($randomBytes | ForEach-Object { "{0:x2}" -f $_ })
-> (Get-Content searxng/settings.yml) -replace 'ultrasecretkey', $secretKey | Set-Content searxng/settings.yml
-> ```
+### 🚀 One-Click Deployment
+- Deploy SearXNG instantly to Railway with zero configuration
+- Automatic HTTPS and domain provisioning
+- No Docker knowledge required
 
-### Method 1: With Caddy included (recommended for beginners)
-6. Run SearXNG in the background: `docker compose up -d`
+### ⚙️ Environment-Driven Configuration
+- **Customizable Settings**: Override default configurations using environment variables
+- **Scalable Performance**: Adjust worker count and threads based on your needs
+- **Security**: Set custom secret keys for enhanced security
 
-### Method 2: Bring your own reverse proxy (experienced users)
-6. Remove the caddy related parts in `docker-compose.yaml` such as the caddy service and its volumes.
-7. Point your reverse proxy to the port set for the `searxng` service in `docker-compose.yml` (8080 by default).
-8. Generate and configure the required TLS certificates with the reverse proxy of your choice.
-9. Run SearXNG in the background: `docker compose up -d`
+### 🔧 Optimized for Railway
+- **Railway Integration**: Automatically detects Railway's `PORT` environment variable
+- **Dynamic Base URL**: Configures itself based on Railway's provided domain
+- **Persistent Configuration**: Custom settings persist across deployments
 
-> [!NOTE]
-> You can change the port `searxng` listens on inside the docker container (e.g. if you want to operate in `host` network mode) with the `BIND_ADDRESS` environment variable (defaults to `0.0.0.0:8080`). The environment variable can be set directly inside `docker-compose.yaml`.
+### 🛡️ Security & Privacy
+- **Rate Limiting**: Built-in protection against abuse (configurable)
+- **No Data Retention**: Search queries are not logged or stored
+- **Secret Key Management**: Secure session handling with customizable keys
 
-## Troubleshooting - How to access the logs
+## 🚀 How to Use This Template
 
-To access the logs from all the containers use: `docker compose logs -f`.
+### Option 1: One-Click Deployment (Recommended)
 
-To access the logs of one specific container:
+1. **Click the Deploy Button** above
+2. **Connect Your GitHub**: Railway will fork this template to your account
+3. **Deploy**: Railway automatically builds and deploys your SearXNG instance
+4. **Access**: Use the provided Railway domain to access your search engine
 
-- Caddy: `docker compose logs -f caddy`
-- SearXNG: `docker compose logs -f searxng`
-- Valkey: `docker compose logs -f redis`
+### Option 2: Manual Deployment
 
-### Start SearXNG with systemd
+1. **Fork this repository** to your GitHub account
+2. **Connect to Railway**: 
+   - Go to [Railway](https://railway.app)
+   - Create a new project
+   - Connect your forked repository
+3. **Deploy**: Railway will automatically detect and deploy the Dockerfile
 
-You can skip this step if you don't use systemd.
-1. Copy the service template file:
-   ```sh
-   cp searxng-docker.service.template searxng-docker.service
-   ```
-  
-2. Edit the content of ```WorkingDirectory``` in the ```searxng-docker.service``` file (only if the installation path is different from ```/usr/local/searxng-docker```)
-   
-3. Enable the service:
-   ```sh
-   systemctl enable $(pwd)/searxng-docker.service
-   ```
+### Option 3: Local Development
 
-4. Start the service:
-   ```sh
-   systemctl start searxng-docker.service
-   ```
+```bash
+# Clone the repository
+git clone <your-fork-url>
+cd searxng-docker
 
-**Note:** Ensure the service file path matches your installation directory before enabling it.
-
-## Note on the image proxy feature
-
-The SearXNG image proxy is activated by default.
-
-The default [Content-Security-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy) allows the browser to access to ```${SEARXNG_HOSTNAME}``` and ```https://*.tile.openstreetmap.org;```.
-
-If some users want to disable the image proxy, you have to modify [./Caddyfile](https://github.com/searxng/searxng-docker/blob/master/Caddyfile). Replace the ```img-src 'self' data: https://*.tile.openstreetmap.org;``` by ```img-src * data:;```.
-
-## Multi Architecture Docker images
-
-Supported architecture:
-
-- amd64
-- arm64
-- arm/v7
-
-## How to update ?
-
-To update the SearXNG stack:
-
-```sh
-git pull
-docker compose pull
-docker compose up -d
-```
-
-Or the old way (with the old docker-compose version):
-
-```sh
-git pull
-docker-compose pull
+# Start with docker-compose
 docker-compose up -d
+
+# Access at http://localhost:8080
 ```
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+You can customize your SearXNG instance using these environment variables in Railway:
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SEARXNG_SECRET_KEY` | Secret key for secure sessions | Auto-generated |
+| `SEARXNG_BASE_URL` | Base URL of your instance | Railway domain |
+| `SEARXNG_UWSGI_WORKERS` | Number of worker processes | 4 |
+| `SEARXNG_UWSGI_THREADS` | Threads per worker | 4 |
+| `PORT` | Port to listen on | 8080 (auto-set by Railway) |
+
+### Setting Environment Variables in Railway
+
+1. Go to your Railway project dashboard
+2. Click on your service
+3. Navigate to **Variables** tab
+4. Add your custom environment variables
+5. Redeploy if necessary
+
+### Custom Configuration Files
+
+The template includes these configuration files in the `searxng/` directory:
+
+- **`settings.yml`**: Main SearXNG configuration (search engines, UI settings)
+- **`limiter.toml`**: Rate limiting configuration
+- **`uwsgi.ini`**: Auto-generated WSGI server configuration
+
+You can modify these files and redeploy to customize your search engine behavior.
+
+## 🔧 Advanced Usage
+
+### Scaling Your Instance
+
+For high-traffic usage, adjust these environment variables:
+
+```env
+SEARXNG_UWSGI_WORKERS=8    # Increase workers for more concurrent requests
+SEARXNG_UWSGI_THREADS=6    # Increase threads per worker
+```
+
+### Security Hardening
+
+1. **Set a Custom Secret Key**:
+   ```env
+   SEARXNG_SECRET_KEY=your-super-secret-key-here
+   ```
+
+2. **Configure Rate Limiting**: Edit `searxng/limiter.toml` to adjust rate limits
+
+3. **Disable Debug Mode**: Edit `searxng/settings.yml` and set `debug: false`
+
+## 📁 Project Structure
+
+```
+searxng-docker/
+├── Dockerfile              # Container configuration
+├── docker-compose.yml      # Local development setup
+├── entrypoint.sh           # Container startup script
+├── README.md               # This file
+└── searxng/                # SearXNG configuration
+    ├── settings.yml        # Main SearXNG settings
+    ├── limiter.toml        # Rate limiting configuration
+    └── uwsgi.ini           # Auto-generated WSGI config
+```
+
+## 🤝 Contributing
+
+1. Fork this repository
+2. Make your changes
+3. Test locally with `docker-compose up`
+4. Submit a pull request
+
+## 📝 License
+
+This template is open source. SearXNG itself is licensed under the GNU Affero General Public License v3.0.
+
+## 🔗 Links
+
+- [SearXNG Official Site](https://searxng.github.io/searxng/)
+- [SearXNG Documentation](https://docs.searxng.org/)
+- [Railway Documentation](https://docs.railway.app/)
+- [SearXNG GitHub Repository](https://github.com/searxng/searxng)
+
+---
+
+**Happy Searching!** 🔍✨

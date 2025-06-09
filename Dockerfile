@@ -1,10 +1,10 @@
 FROM docker.io/searxng/searxng:latest
 
 # Use the environment variables that Railway injects at build time (non-sensitive ones)
-ARG SEARXNG_BASE_URL=https://localhost
-ARG SEARXNG_UWSGI_WORKERS=4
-ARG SEARXNG_UWSGI_THREADS=4
-ARG PORT=8080
+ARG SEARXNG_BASE_URL
+ARG SEARXNG_UWSGI_WORKERS
+ARG SEARXNG_UWSGI_THREADS
+ARG PORT
 
 # Set Railway-specific environment variables
 ENV BASE_URL=${SEARXNG_BASE_URL}

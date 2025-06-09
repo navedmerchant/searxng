@@ -8,5 +8,6 @@ else
     echo "Warning: SEARXNG_SECRET_KEY environment variable not set, using default"
 fi
 
-# Execute the original SearXNG entrypoint/command
-exec "$@" 
+# Start SearXNG using the original container's startup logic
+# The original image uses /usr/local/searxng/entrypoint.sh
+exec /usr/local/searxng/entrypoint.sh 
