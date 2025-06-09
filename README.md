@@ -1,6 +1,6 @@
 # SearXNG Docker Template for Railway
 
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/MieO4T?referralCode=KKAfTD)
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/6Qhjrg?referralCode=KKAfTD)
 
 A ready-to-deploy [SearXNG](https://github.com/searxng/searxng) metasearch engine template for [Railway](https://railway.app). Get your own privacy-focused search engine running in minutes! Perfect for AI agents, FlowiseAI, n8n workflows, and any application needing web search capabilities.
 
