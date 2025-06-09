@@ -2,7 +2,7 @@
 
 [![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/MieO4T?referralCode=KKAfTD)
 
-A ready-to-deploy [SearXNG](https://github.com/searxng/searxng) metasearch engine template for [Railway](https://railway.app). Get your own privacy-focused search engine running in minutes!
+A ready-to-deploy [SearXNG](https://github.com/searxng/searxng) metasearch engine template for [Railway](https://railway.app). Get your own privacy-focused search engine running in minutes! Perfect for AI agents, FlowiseAI, n8n workflows, and any application needing web search capabilities.
 
 ## 🔍 About SearXNG
 
@@ -11,10 +11,18 @@ SearXNG is a free internet metasearch engine that aggregates results from more t
 - **Privacy Protection**: No tracking, no data collection, no user profiling
 - **Ad-Free Experience**: Clean search results without advertisements
 - **Multiple Sources**: Combines results from Google, Bing, DuckDuckGo, and many more
+- **AI-Ready**: JSON API perfect for AI agents, chatbots, and automation workflows
 - **Open Source**: Fully transparent and community-driven
 - **Customizable**: Configure which search engines to use and how results are displayed
 
 ## ✨ Features & Benefits of This Railway Template
+
+### 🤖 AI-Optimized & Ready
+- **AI Integration Ready**: Perfect backend for AI agents, chatbots, and automation tools
+- **FlowiseAI Compatible**: Easy integration with FlowiseAI workflows for intelligent search
+- **n8n Ready**: Seamless connection with n8n automation workflows
+- **API Access**: JSON responses available for programmatic access
+- **No API Keys Required**: Free alternative to Google Search API, Bing API, etc.
 
 ### 🚀 One-Click Deployment
 - Deploy SearXNG instantly to Railway with zero configuration
@@ -46,14 +54,11 @@ SearXNG is a free internet metasearch engine that aggregates results from more t
 3. **Deploy**: Railway automatically builds and deploys your SearXNG instance
 4. **Access**: Use the provided Railway domain to access your search engine
 
-### Option 2: Manual Deployment
+### Option 2: Add this template to your current project
 
-1. **Fork this repository** to your GitHub account
-2. **Connect to Railway**: 
-   - Go to [Railway](https://railway.app)
-   - Create a new project
-   - Connect your forked repository
-3. **Deploy**: Railway will automatically detect and deploy the Dockerfile
+1. **Create** Select Template
+2. **Search** SearXNG (w/Official Image) and click on it.
+3. **Deploy**: Railway will automatically detect and deploy it to your project.
 
 ### Option 3: Local Development
 
@@ -99,6 +104,63 @@ The template includes these configuration files in the `searxng/` directory:
 - **`uwsgi.ini`**: Auto-generated WSGI server configuration
 
 You can modify these files and redeploy to customize your search engine behavior.
+
+## 🤖 AI Integration Guide
+
+### FlowiseAI Integration
+
+1. **Deploy** your SearXNG instance using the one-click button above
+2. **Get your Railway URL** (e.g., `https://your-app.railway.app`)
+3. **In FlowiseAI**:
+   - Use the **HTTP Request** node
+   - Set URL to: `https://your-app.railway.app/search?q={query}&format=json`
+   - Method: `GET`
+   - Use the JSON response in your AI workflows
+
+### n8n Integration
+
+1. **Add HTTP Request Node** in your n8n workflow
+2. **Configure the request**:
+   - URL: `https://your-app.railway.app/search`
+   - Method: `GET` 
+   - Parameters:
+     - `q`: Your search query
+     - `format`: `json`
+     - `categories`: `general` (optional)
+3. **Process the results** using n8n's data transformation nodes
+
+### API Usage Examples
+
+**Basic Search:**
+```bash
+curl "https://your-app.railway.app/search?q=artificial+intelligence&format=json"
+```
+
+**Search with Category:**
+```bash
+curl "https://your-app.railway.app/search?q=machine+learning&format=json&categories=general,it"
+```
+
+**Image Search:**
+```bash
+curl "https://your-app.railway.app/search?q=robots&format=json&categories=images"
+```
+
+### Response Format
+```json
+{
+  "query": "artificial intelligence",
+  "number_of_results": 25,
+  "results": [
+    {
+      "title": "Artificial Intelligence - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Artificial_intelligence",
+      "content": "Artificial intelligence (AI) is intelligence demonstrated by machines...",
+      "engine": "google"
+    }
+  ]
+}
+```
 
 ## 🔧 Advanced Usage
 
