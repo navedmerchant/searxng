@@ -2,6 +2,7 @@ use_default_settings:
   engines:
     keep_only:
       - google
+      - google images
 server:
   secret_key: "248761c39005d33050fec8bd6b40a170f133ff471f71a0e262154a5903c7d3e3"
 search:
@@ -102,7 +103,6 @@ engines:
   - name: google images
     engine: google_images
     shortcut: goi
-    disabled: true
 
   - name: google news
     engine: google_news
